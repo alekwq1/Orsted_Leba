@@ -678,7 +678,7 @@ function App() {
           <PlaneClickCatcher
             enabled={!!waitingForPosition}
             /* groundY dopasuj do swojej podłogi: 0 albo -1 */
-            groundY={5}
+            groundY={2}
             onPick={(pos: [number, number, number]) => {
               if (waitingForPosition) {
                 waitingForPosition(pos);
