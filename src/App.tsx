@@ -33,13 +33,19 @@ export type GLBModelSettings = {
   rotation: [number, number, number];
   scale?: [number, number, number];
 };
+// helpers do konwersji
+const degToRad = (deg: number) => (deg * Math.PI) / 180;
 
+const degArrayToRad = ([x, y, z]: [number, number, number]): [
+  number,
+  number,
+  number
+] => [degToRad(x), degToRad(y), degToRad(z)];
 const splatOption = {
   name: "04.06.2024",
-  url: "https://huggingface.co/Alekso/07_08_2025/resolve/main/07_08_2025.splat",
-
-  position: [-3.1, -1, -0.38] as [number, number, number],
-  rotation: [0, 0, 0] as [number, number, number],
+  url: "https://huggingface.co/datasets/Alekso/15_08_2025/resolve/main/untitled.splat",
+  position: [-1.9, -0.7, -0.78] as [number, number, number],
+  rotation: degArrayToRad([0, -16, 0]),
   scale: [1, 1, 1] as [number, number, number],
 };
 
