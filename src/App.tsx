@@ -48,7 +48,7 @@ const splatOption = {
   url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025.splat",
 
   position: [-1.9, 10, -0.78] as [number, number, number],
-  rotation: degArrayToRad([0, 68, 0]),
+  rotation: degArrayToRad([0, 68.9, 0]),
   scale: [20, 20, 20] as [number, number, number],
 };
 
@@ -364,7 +364,7 @@ function App() {
           </button>
         )}
         <a
-          href="https://equinorleba.netlify.app/"
+          href="https://orstedleba.netlify.app/"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -811,10 +811,10 @@ function App() {
           baseHeight={720}
           hotspots={[
             {
-              rect: { x: 840, y: 96, w: 160, h: 160 },
+              rect: { x: 200, y: 60, w: 100, h: 100 },
               video: "/media/mirek.mp4",
               poster: "/media/mirek.jpg",
-              alt: "Mirosław Koczorowski",
+              alt: "Andrzej Kryciński",
             },
             // kolejne osoby...
           ]}

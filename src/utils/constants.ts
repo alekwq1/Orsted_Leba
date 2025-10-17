@@ -6,19 +6,13 @@ export const APP_PASSWORD = "12345678";
 export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   {
     id: "AED on Site & Eye Wash Station",
-    position: [-62, 3, 40],
+    position: [-18.21325244283676, 2, 37.8319212804763],
     label: "Construction Office",
     icon: "💓",
     content: "• AED: 🏥⚡\n• Eye wash: 👁️🚿\n",
-    cameraPosition: [-15, 65, 80],
-  },
-  {
-    id: "H&S Board (Health & Safety)2",
-    position: [-7, 3, -35],
-    label: "H&S Board (Health & Safety)",
-    icon: "⛑️",
-    content: "🧯⛑️ (fire extinguisher + first aid kit)",
-    cameraPosition: [50, 50, -50],
+    cameraPosition: [
+      -59.708374539336276, 31.046953675813363, 42.392283723171445,
+    ],
   },
   {
     id: "Pedestrian Communication Route",
@@ -29,14 +23,6 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     cameraPosition: [0, 100, 35],
   },
   {
-    id: "No Entry – Seagull Nesting Area",
-    position: [-30, 3, 55],
-    label: "No Entry – Seagull Nesting Area",
-    icon: "🐦",
-    content: "⛔🐦 No Entry – Seagull Nesting Area",
-    cameraPosition: [-15, 65, 80],
-  },
-  {
     id: "Emergency Board – Nearest Hospital Phone Number",
     position: [-57, 3, 22],
     label: "NEmergency Board – Nearest Hospital Phone Number",
@@ -45,7 +31,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "No Entry – Fuel Storage Area",
-    position: [-50, 3, 0],
+    position: [33.20761097495296, 2, -19.505605798673834],
     label: "No Entry – Fuel Storage Area",
     icon: "⛽",
     content: "⛔⛽ No Entry – Fuel Storage Area",
@@ -53,37 +39,33 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "H&S Board (Health & Safety)",
-    position: [45, 3, -15],
+    position: [35.350499494070576, 1.9999999999999964, -11.772105632853563],
     label: "H&S Board (Health & Safety)",
     icon: "⛑️",
     content:
       "• Lifebuoy with rope: 🛟\n       • First aid kit + assigned personnel list: 💊📜",
-    cameraPosition: [60, 150, 80],
+    cameraPosition: [57.01997448514952, 29.1655793073127, -21.745386173333834],
   },
   {
     id: "Safety Board",
-    position: [-50, 3, 65],
+    position: [27.275759221802353, 2, -18.54483067193394],
     label: "Safety Board",
     icon: "📢",
     content:
       "• Evacuation assembly point 🚨\n• First aid kit 💊🩹\n• Fire extinguisher 🔥🧯\n• Fire blanket 🧯🛡️\n",
-    cameraPosition: [-50, 80, 150],
-  },
-  {
-    id: "Construction Safety Mirror",
-    position: [-62, 10, 22],
-    label: "Construction Safety Mirror",
-    icon: "🔍",
-    content: "Construction Safety Mirror🔍👷‍♂️\n",
-    cameraPosition: [0, 120, 35],
+    cameraPosition: [
+      54.40471891951239, 30.157081459343313, -25.242299194210553,
+    ],
   },
   {
     id: "34f5fcad-3186-4c5f-881a-023b79a0d78b",
     label: "Smoking place",
     icon: "🚬",
     content: "Designated area for smoking",
-    position: [-31.3459545714309, 0, 43.5630976186153],
-    cameraPosition: [3.1689753366544693, 86.02580093384782, 32.98289069805684],
+    position: [32.79685294499921, 2, -14.851538046413372],
+    cameraPosition: [
+      53.638028259768475, 34.37193947869187, -20.821803159070278,
+    ],
   },
 ];
 export const PUBLIC_GLB = { label: "Building", url: "/models/building.glb" };
