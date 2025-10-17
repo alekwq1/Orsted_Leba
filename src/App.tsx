@@ -23,6 +23,7 @@ import { useAuth } from "./hooks/useAuth";
 import { InfoPointData } from "./utils/types";
 import { isMobile, getInfoPanelStyle } from "./utils/helpers";
 import PlaneClickCatcher from "./components/PlaneClickCatcher";
+import OrgChartModal from "./components/OrgChartModal";
 
 // --- TABLICA MODELI GLB ---
 export type GLBModelSettings = {
@@ -33,6 +34,7 @@ export type GLBModelSettings = {
   rotation: [number, number, number];
   scale?: [number, number, number];
 };
+
 // helpers do konwersji
 const degToRad = (deg: number) => (deg * Math.PI) / 180;
 
@@ -42,11 +44,12 @@ const degArrayToRad = ([x, y, z]: [number, number, number]): [
   number
 ] => [degToRad(x), degToRad(y), degToRad(z)];
 const splatOption = {
-  name: "04.06.2024",
-  url: "https://huggingface.co/datasets/Alekso/15_08_2025/resolve/main/untitled.splat",
-  position: [-1.9, -0.7, -0.78] as [number, number, number],
-  rotation: degArrayToRad([0, -16, 0]),
-  scale: [1, 1, 1] as [number, number, number],
+  name: "15.10.2025",
+  url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025.splat",
+
+  position: [-1.9, 10, -0.78] as [number, number, number],
+  rotation: degArrayToRad([0, 69, 0]),
+  scale: [20, 20, 20] as [number, number, number],
 };
 
 function App() {
@@ -54,6 +57,7 @@ function App() {
   const [waitingForPosition, setWaitingForPosition] = useState<
     null | ((pos: [number, number, number]) => void)
   >(null);
+  const [showOrgChart, setShowOrgChart] = useState(false);
 
   const [showSplatLoadedOverlay, setShowSplatLoadedOverlay] = useState(false);
   const [glbModels, setGlbModels] = useState<GLBModelSettings[]>([
@@ -341,6 +345,24 @@ function App() {
         >
           {hideUI ? "🙉" : "🙈"}
         </button>
+        {!hideUI && (
+          <button
+            onClick={() => setShowOrgChart(true)}
+            style={{
+              background: "#1971c2",
+              color: "#fff",
+              fontWeight: 700,
+              border: "none",
+              borderRadius: 9,
+              padding: "7px 14px",
+              cursor: "pointer",
+              boxShadow: "0 2px 8px #0002",
+            }}
+            title="Pokaż schemat organizacyjny"
+          >
+            👤 Org chart
+          </button>
+        )}
         <a
           href="https://equinorleba.netlify.app/"
           target="_blank"
@@ -390,6 +412,7 @@ function App() {
                 Edit mode
               </button>
             )}
+
             {editMode && (
               <button
                 onClick={() => {
@@ -779,6 +802,23 @@ function App() {
             <Environment preset="city" />
           </Suspense>
         </Canvas>
+      )}
+      {showOrgChart && (
+        <OrgChartModal
+          onClose={() => setShowOrgChart(false)}
+          imageUrl="/media/orgchart.png"
+          baseWidth={1284}
+          baseHeight={720}
+          hotspots={[
+            {
+              rect: { x: 840, y: 96, w: 160, h: 160 },
+              video: "/media/mirek.mp4",
+              poster: "/media/mirek.jpg",
+              alt: "Mirosław Koczorowski",
+            },
+            // kolejne osoby...
+          ]}
+        />
       )}
     </div>
   );
