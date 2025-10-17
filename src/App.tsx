@@ -48,7 +48,7 @@ const splatOption = {
   url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025.splat",
 
   position: [-1.9, 10, -0.78] as [number, number, number],
-  rotation: degArrayToRad([0, 69, 0]),
+  rotation: degArrayToRad([0, 68, 0]),
   scale: [20, 20, 20] as [number, number, number],
 };
 
