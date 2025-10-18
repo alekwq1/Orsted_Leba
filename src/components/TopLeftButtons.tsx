@@ -78,7 +78,7 @@ export default function TopLeftButtons({
         </span>
       </div>
 
-      {/* GLB – jednym przyciskiem pokazujesz/ukrywasz wszystkie glbModels */}
+      {/* GLB –jednym przyciskiem pokazujesz/ukrywasz wszystkie glbModels */}
       <div
         style={{
           display: "flex",
@@ -87,7 +87,7 @@ export default function TopLeftButtons({
         }}
       >
         <button
-          title={anyGlbVisible ? "Ukryj wszystkie GLB" : "Pokaż wszystkie GLB"}
+          title={anyGlbVisible ? "Hide all GLB" : "Show all GLB"}
           style={{
             background: anyGlbVisible ? "#16a34a" : "#ef4444",
             color: "#fff",

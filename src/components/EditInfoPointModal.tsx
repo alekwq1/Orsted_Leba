@@ -122,7 +122,7 @@ const EditInfoPointModal: React.FC<Props> = ({
                 marginTop: 3,
               }}
             >
-              Dalej
+              OK
             </button>
             {showError && (
               <span style={{ color: "#d81818", fontWeight: 500 }}>
@@ -143,7 +143,7 @@ const EditInfoPointModal: React.FC<Props> = ({
                 cursor: "pointer",
               }}
             >
-              Anuluj
+              Cancel
             </button>
           </>
         ) : (
@@ -273,7 +273,7 @@ const EditInfoPointModal: React.FC<Props> = ({
                 cursor: "pointer",
               }}
             >
-              Anuluj
+              Cancel
             </button>
           </>
         )}

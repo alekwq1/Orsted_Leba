@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { InfoPointData } from "../utils/types";
 import { resolvePublicUrl } from "../utils/paths";
 
@@ -31,6 +31,7 @@ export default function InfoPointDetailsPanel({
   const [label, setLabel] = useState(infoPoint.label);
   const [icon, setIcon] = useState(infoPoint.icon);
   const [content, setContent] = useState(infoPoint.content);
+  const [group, setGroup] = useState<string>(infoPoint.group || ""); // NEW
   const [position, setPosition] = useState<[number, number, number]>([
     ...infoPoint.position,
   ]);
@@ -46,6 +47,7 @@ export default function InfoPointDetailsPanel({
     setLabel(infoPoint.label);
     setIcon(infoPoint.icon);
     setContent(infoPoint.content);
+    setGroup(infoPoint.group || "");
     setPosition([...infoPoint.position]);
     setCameraPosition(
       infoPoint.cameraPosition ? [...infoPoint.cameraPosition] : undefined
@@ -69,30 +71,45 @@ export default function InfoPointDetailsPanel({
   const roundArray = (arr?: [number, number, number]) =>
     arr ? arr.map((v) => Number(v.toFixed(1))) : undefined;
 
-  const handleSetCameraPosition = () => {
+  const handleSetCameraPosition = useCallback(() => {
     const pos = getCurrentCameraPosition();
     setCameraPosition([pos[0], pos[1], pos[2]]);
-  };
+  }, [getCurrentCameraPosition]);
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!label || !icon || !content) return;
+  const handleSave = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!label || !icon || !content) return;
 
-    // normalizacja: usuwamy wiodące "/" żeby ścieżka była względna do public/
-    const normalizedImage = imageUrl.trim().replace(/^\/+/, "");
+      // normalizacja: usuwamy wiodące "/" żeby ścieżka była względna do public/
+      const normalizedImage = imageUrl.trim().replace(/^\/+/, "");
 
-    const updated: InfoPointData = {
-      ...infoPoint,
+      const updated: InfoPointData = {
+        ...infoPoint,
+        label,
+        icon,
+        content,
+        position,
+        cameraPosition,
+        imageUrl: normalizedImage || undefined,
+        imageAlt: imageAlt.trim() || undefined,
+        group: group.trim() || undefined, // NEW
+      };
+      onSave(updated);
+    },
+    [
       label,
       icon,
       content,
       position,
       cameraPosition,
-      imageUrl: normalizedImage || undefined,
-      imageAlt: imageAlt.trim() || undefined,
-    };
-    onSave(updated);
-  };
+      imageUrl,
+      imageAlt,
+      group,
+      infoPoint,
+      onSave,
+    ]
+  );
 
   return (
     <div
@@ -161,7 +178,7 @@ export default function InfoPointDetailsPanel({
         )}
       </div>
 
-      {/* PODGLĄD (gdy nie edycja) */}
+      {/* PODGLĄD */}
       {!editMode ? (
         <>
           <div style={{ fontSize: 35, textAlign: "center", marginBottom: -6 }}>
@@ -170,6 +187,24 @@ export default function InfoPointDetailsPanel({
           <div style={{ fontWeight: 700, fontSize: 19, color: "#1971c2" }}>
             {infoPoint.label}
           </div>
+
+          {infoPoint.group && (
+            <div
+              style={{
+                fontSize: 12,
+                color: "#2b8a3e",
+                background: "#d3f9d8",
+                border: "1px solid #e9ecef",
+                borderRadius: 999,
+                padding: "2px 8px",
+                width: "fit-content",
+                marginTop: 2,
+              }}
+              title="Grupa infopointa"
+            >
+              {infoPoint.group}
+            </div>
+          )}
 
           {infoPoint.imageUrl && (
             <img
@@ -244,6 +279,20 @@ export default function InfoPointDetailsPanel({
             required
           />
 
+          {/* NOWE: Grupa */}
+          <input
+            type="text"
+            placeholder="Grupa (np. ETAP 1)"
+            value={group}
+            onChange={(e) => setGroup(e.target.value)}
+            style={{
+              fontSize: 14,
+              borderRadius: 7,
+              padding: "7px 10px",
+              border: "1px solid #ccc",
+            }}
+          />
+
           {/* Pola obrazu */}
           <input
             type="url"
@@ -294,15 +343,12 @@ export default function InfoPointDetailsPanel({
                 value={position[ax]}
                 style={{ width: 46, fontSize: 13 }}
                 onChange={(e) => {
-                  const val = parseFloat(e.target.value);
-                  setPosition(
-                    (pos) =>
-                      pos.map((v, i) => (i === ax ? val : v)) as [
-                        number,
-                        number,
-                        number
-                      ]
-                  );
+                  const val = e.target.value;
+                  setPosition((pos) => {
+                    const next = [...pos] as [number, number, number];
+                    next[ax] = val === "" ? next[ax] : Number(val);
+                    return next;
+                  });
                 }}
                 title={["X", "Y", "Z"][ax]}
                 required
@@ -345,17 +391,12 @@ export default function InfoPointDetailsPanel({
                 value={cameraPosition ? cameraPosition[ax] : ""}
                 style={{ width: 46, fontSize: 13 }}
                 onChange={(e) => {
-                  const val = parseFloat(e.target.value);
-                  setCameraPosition(
-                    (cam) =>
-                      (cam
-                        ? cam.map((v, i) => (i === ax ? val : v))
-                        : [0, 0, 0].map((v, i) => (i === ax ? val : v))) as [
-                        number,
-                        number,
-                        number
-                      ]
-                  );
+                  const val = e.target.value;
+                  setCameraPosition((cam) => {
+                    const base = cam ? [...cam] : [0, 0, 0];
+                    base[ax] = val === "" ? base[ax] : Number(val);
+                    return base as [number, number, number];
+                  });
                 }}
                 title={["X", "Y", "Z"][ax]}
               />
@@ -376,6 +417,23 @@ export default function InfoPointDetailsPanel({
               tabIndex={-1}
             >
               Ustaw z kamery
+            </button>
+            <button
+              type="button"
+              onClick={() => setCameraPosition(undefined)}
+              style={{
+                fontSize: 12,
+                marginLeft: 5,
+                background: "#f8f9fa",
+                color: "#555",
+                border: "1px solid #e9ecef",
+                borderRadius: 6,
+                padding: "4px 8px",
+                cursor: "pointer",
+              }}
+              tabIndex={-1}
+            >
+              Wyczyść
             </button>
           </div>
 

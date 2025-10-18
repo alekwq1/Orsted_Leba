@@ -1,24 +1,56 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 
-export type ModelsDropdownProps = {
-  models: { label: string; visible: boolean }[];
+export type InfoPointGroupsDropdownProps = {
+  groups: { label: string; visible: boolean; count?: number }[];
   onToggleVisible: (index: number) => void;
   onShowAll: () => void;
   onHideAll: () => void;
 };
 
-export default function ModelsDropdown({
-  models,
+export default function InfoPointGroupsDropdown({
+  groups,
   onToggleVisible,
   onShowAll,
   onHideAll,
-}: ModelsDropdownProps) {
+}: InfoPointGroupsDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const btnRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const menuId = useId();
+
+  const close = useCallback(() => {
+    setIsOpen(false);
+    btnRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (
+        !menuRef.current?.contains(e.target as Node) &&
+        !btnRef.current?.contains(e.target as Node)
+      ) {
+        close();
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, close]);
 
   return (
     <div style={{ position: "relative" }}>
-      {/* Toggle button */}
       <button
+        ref={btnRef}
+        aria-haspopup="menu"
+        aria-controls={isOpen ? menuId : undefined}
+        aria-expanded={isOpen}
         onClick={() => setIsOpen((o) => !o)}
         style={{
           background: "#1971c2",
@@ -30,14 +62,17 @@ export default function ModelsDropdown({
           cursor: "pointer",
           boxShadow: "0 2px 8px #0002",
         }}
-        title="Manage GLB model visibility"
+        title="Manage the visibility of InfoPoint groups"
       >
-        📦 Models
+        🏷️ Groups
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
         <div
+          ref={menuRef}
+          id={menuId}
+          role="menu"
+          aria-label="InfoPoint groups management"
           style={{
             position: "absolute",
             right: 0,
@@ -50,15 +85,12 @@ export default function ModelsDropdown({
             minWidth: 260,
             border: "1px solid #e9ecef",
           }}
-          onMouseLeave={() => setIsOpen(false)}
         >
-          {/* Bulk actions */}
+          {/* Akcje zbiorcze */}
           <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
             <button
-              onClick={() => {
-                onShowAll();
-                setIsOpen(false);
-              }}
+              role="menuitem"
+              onClick={onShowAll}
               style={{
                 background: "#0ca678",
                 color: "#fff",
@@ -68,15 +100,13 @@ export default function ModelsDropdown({
                 fontWeight: 600,
                 cursor: "pointer",
               }}
-              title="Show all models"
+              title="Show all groups"
             >
               Show all
             </button>
             <button
-              onClick={() => {
-                onHideAll();
-                setIsOpen(false);
-              }}
+              role="menuitem"
+              onClick={onHideAll}
               style={{
                 background: "#e03131",
                 color: "#fff",
@@ -86,14 +116,16 @@ export default function ModelsDropdown({
                 fontWeight: 600,
                 cursor: "pointer",
               }}
-              title="Hide all models"
+              title="Hide all groups"
             >
               Hide all
             </button>
           </div>
 
-          {/* List */}
+          {/* Lista grup */}
           <div
+            role="group"
+            aria-label="Lista grup"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -102,9 +134,9 @@ export default function ModelsDropdown({
               overflowY: "auto",
             }}
           >
-            {models.map((m, i) => (
+            {groups.map((g, i) => (
               <div
-                key={m.label + i}
+                key={g.label + i}
                 style={{
                   display: "grid",
                   gridTemplateColumns: "28px 1fr auto",
@@ -116,27 +148,29 @@ export default function ModelsDropdown({
                   background: "#fff",
                 }}
               >
-                {/* Toggle */}
+                {/* Przełącznik widoczności */}
                 <button
+                  role="menuitemcheckbox"
+                  aria-checked={g.visible}
                   onClick={(e) => {
                     e.stopPropagation();
                     onToggleVisible(i);
                   }}
-                  title={m.visible ? "Click to hide" : "Click to show"}
+                  title={g.visible ? "Hide group" : "Show group"}
                   style={{
                     width: 24,
                     height: 18,
                     borderRadius: 4,
                     border: "1px solid #dee2e6",
-                    background: m.visible ? "#2f9e44" : "#e9ecef",
-                    boxShadow: m.visible ? "inset 0 0 0 2px #ffffffaa" : "none",
+                    background: g.visible ? "#2f9e44" : "#e9ecef",
+                    boxShadow: g.visible ? "inset 0 0 0 2px #ffffffaa" : "none",
                     cursor: "pointer",
                   }}
                 />
 
-                {/* Label */}
+                {/* Nazwa grupy */}
                 <span
-                  title={m.visible ? "Model visible" : "Model hidden"}
+                  title={g.visible ? "Grupa widoczna" : "Grupa ukryta"}
                   style={{
                     textAlign: "left",
                     fontWeight: 600,
@@ -144,21 +178,23 @@ export default function ModelsDropdown({
                     userSelect: "none",
                   }}
                 >
-                  {m.label}
+                  {g.label}
                 </span>
 
-                {/* Status */}
+                {/* Liczba elementów w grupie */}
                 <span
+                  aria-live="polite"
                   style={{
                     fontSize: 12,
                     padding: "2px 6px",
                     borderRadius: 999,
-                    background: m.visible ? "#d3f9d8" : "#f1f3f5",
-                    color: m.visible ? "#2b8a3e" : "#5c677d",
+                    background: g.visible ? "#d3f9d8" : "#f1f3f5",
+                    color: g.visible ? "#2b8a3e" : "#5c677d",
                     border: "1px solid #e9ecef",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {m.visible ? "visible" : "hidden"}
+                  {typeof g.count === "number" ? `${g.count}` : ""}
                 </span>
               </div>
             ))}

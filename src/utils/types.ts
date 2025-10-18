@@ -1,13 +1,14 @@
 // utils/types.ts
-export interface InfoPointData {
-  id: string;
-  position: [number, number, number];
-  label: string;
-  icon: string;
-  content: string;
-  cameraPosition?: [number, number, number];
 
-  // NOWE – opcjonalne pola dla zdjęcia
+export type InfoPointData = {
+  id: string;
+  label: string;
+  icon: string; // emoji / short label
+  content: string;
+  position: [number, number, number];
+  cameraPosition?: [number, number, number];
   imageUrl?: string;
   imageAlt?: string;
-}
+  /** NOWE: nazwa grupy, do filtrowania widoczności */
+  group?: string; // np. "ETAP 1", "Bezpieczeństwo", itp.
+};

@@ -1,27 +1,36 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
-export type ModelsDropdownProps = {
-  models: { label: string; visible: boolean }[];
+export type SplatDropdownProps = {
+  splats: { label: string; visible: boolean }[];
   onToggleVisible: (index: number) => void;
   onShowAll: () => void;
   onHideAll: () => void;
 };
 
-export default function ModelsDropdown({
-  models,
+export default function SplatDropdown({
+  splats,
   onToggleVisible,
   onShowAll,
   onHideAll,
-}: ModelsDropdownProps) {
+}: SplatDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [isOpen]);
 
   return (
-    <div style={{ position: "relative" }}>
-      {/* Toggle button */}
+    <div style={{ position: "relative" }} ref={rootRef}>
       <button
         onClick={() => setIsOpen((o) => !o)}
         style={{
-          background: "#1971c2",
+          background: "#845ef7",
           color: "#fff",
           fontWeight: 700,
           border: "none",
@@ -30,12 +39,11 @@ export default function ModelsDropdown({
           cursor: "pointer",
           boxShadow: "0 2px 8px #0002",
         }}
-        title="Manage GLB model visibility"
+        title="Manage the visibility of SPLAT models"
       >
-        📦 Models
+        🟡 Splats
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
         <div
           style={{
@@ -50,9 +58,7 @@ export default function ModelsDropdown({
             minWidth: 260,
             border: "1px solid #e9ecef",
           }}
-          onMouseLeave={() => setIsOpen(false)}
         >
-          {/* Bulk actions */}
           <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
             <button
               onClick={() => {
@@ -68,7 +74,7 @@ export default function ModelsDropdown({
                 fontWeight: 600,
                 cursor: "pointer",
               }}
-              title="Show all models"
+              title="Show all splats"
             >
               Show all
             </button>
@@ -86,13 +92,12 @@ export default function ModelsDropdown({
                 fontWeight: 600,
                 cursor: "pointer",
               }}
-              title="Hide all models"
+              title="Hide all splats"
             >
               Hide all
             </button>
           </div>
 
-          {/* List */}
           <div
             style={{
               display: "flex",
@@ -102,7 +107,7 @@ export default function ModelsDropdown({
               overflowY: "auto",
             }}
           >
-            {models.map((m, i) => (
+            {splats.map((m, i) => (
               <div
                 key={m.label + i}
                 style={{
@@ -116,13 +121,14 @@ export default function ModelsDropdown({
                   background: "#fff",
                 }}
               >
-                {/* Toggle */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onToggleVisible(i);
                   }}
-                  title={m.visible ? "Click to hide" : "Click to show"}
+                  title={
+                    m.visible ? "Kliknij, aby ukryć" : "Kliknij, aby pokazać"
+                  }
                   style={{
                     width: 24,
                     height: 18,
@@ -133,21 +139,17 @@ export default function ModelsDropdown({
                     cursor: "pointer",
                   }}
                 />
-
-                {/* Label */}
                 <span
-                  title={m.visible ? "Model visible" : "Model hidden"}
+                  title={m.visible ? "Splat visible" : "Splat hidden"}
                   style={{
                     textAlign: "left",
                     fontWeight: 600,
-                    color: "#185c92",
+                    color: "#5f3dc4",
                     userSelect: "none",
                   }}
                 >
                   {m.label}
                 </span>
-
-                {/* Status */}
                 <span
                   style={{
                     fontSize: 12,
@@ -158,7 +160,7 @@ export default function ModelsDropdown({
                     border: "1px solid #e9ecef",
                   }}
                 >
-                  {m.visible ? "visible" : "hidden"}
+                  {m.visible ? "Visible" : "Hidden"}
                 </span>
               </div>
             ))}
