@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { InfoPointData } from "../utils/types";
+import { resolvePublicUrl } from "../utils/paths";
 
 type Props = {
   infoPoint: InfoPointData;
@@ -13,11 +14,10 @@ type Props = {
     cameraPos: [number, number, number],
     targetPos: [number, number, number]
   ) => void;
-  // Najważniejsze! (nowy props)
   onRequestSetPosition?: (cb: (pos: [number, number, number]) => void) => void;
 };
 
-const InfoPointDetailsPanel: React.FC<Props> = ({
+export default function InfoPointDetailsPanel({
   infoPoint,
   editMode,
   onRequestEditMode,
@@ -27,8 +27,7 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
   getCurrentCameraPosition,
   focusCameraOn,
   onRequestSetPosition,
-}) => {
-  // Stany edycji
+}: Props) {
   const [label, setLabel] = useState(infoPoint.label);
   const [icon, setIcon] = useState(infoPoint.icon);
   const [content, setContent] = useState(infoPoint.content);
@@ -39,6 +38,10 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
     [number, number, number] | undefined
   >(infoPoint.cameraPosition ? [...infoPoint.cameraPosition] : undefined);
 
+  // obrazek
+  const [imageUrl, setImageUrl] = useState<string>(infoPoint.imageUrl || "");
+  const [imageAlt, setImageAlt] = useState<string>(infoPoint.imageAlt || "");
+
   useEffect(() => {
     setLabel(infoPoint.label);
     setIcon(infoPoint.icon);
@@ -47,6 +50,8 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
     setCameraPosition(
       infoPoint.cameraPosition ? [...infoPoint.cameraPosition] : undefined
     );
+    setImageUrl(infoPoint.imageUrl || "");
+    setImageAlt(infoPoint.imageAlt || "");
   }, [infoPoint, editMode]);
 
   useEffect(() => {
@@ -72,6 +77,10 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!label || !icon || !content) return;
+
+    // normalizacja: usuwamy wiodące "/" żeby ścieżka była względna do public/
+    const normalizedImage = imageUrl.trim().replace(/^\/+/, "");
+
     const updated: InfoPointData = {
       ...infoPoint,
       label,
@@ -79,6 +88,8 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
       content,
       position,
       cameraPosition,
+      imageUrl: normalizedImage || undefined,
+      imageAlt: imageAlt.trim() || undefined,
     };
     onSave(updated);
   };
@@ -117,9 +128,10 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
       >
         ✖
       </button>
+
       {/* GÓRA: Tryb edycji */}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        {!editMode && (
+        {!editMode ? (
           <button
             onClick={onRequestEditMode}
             style={{
@@ -135,8 +147,7 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
           >
             Tryb edycji
           </button>
-        )}
-        {editMode && (
+        ) : (
           <span
             style={{
               color: "#228be6",
@@ -149,7 +160,8 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
           </span>
         )}
       </div>
-      {/* TREŚĆ */}
+
+      {/* PODGLĄD (gdy nie edycja) */}
       {!editMode ? (
         <>
           <div style={{ fontSize: 35, textAlign: "center", marginBottom: -6 }}>
@@ -158,6 +170,26 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
           <div style={{ fontWeight: 700, fontSize: 19, color: "#1971c2" }}>
             {infoPoint.label}
           </div>
+
+          {infoPoint.imageUrl && (
+            <img
+              src={resolvePublicUrl(infoPoint.imageUrl)}
+              alt={infoPoint.imageAlt || infoPoint.label}
+              onError={(e) =>
+                ((e.currentTarget as HTMLImageElement).style.display = "none")
+              }
+              loading="lazy"
+              style={{
+                width: "100%",
+                maxHeight: 200,
+                objectFit: "cover",
+                borderRadius: 10,
+                boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                margin: "8px 0 6px",
+              }}
+            />
+          )}
+
           <div
             style={{ color: "#34495e", fontSize: 15, whiteSpace: "pre-line" }}
           >
@@ -211,6 +243,33 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
             }}
             required
           />
+
+          {/* Pola obrazu */}
+          <input
+            type="url"
+            placeholder="Adres URL zdjęcia (opcjonalnie)"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            style={{
+              fontSize: 14,
+              borderRadius: 7,
+              padding: "7px 10px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Opis ALT zdjęcia (opcjonalnie)"
+            value={imageAlt}
+            onChange={(e) => setImageAlt(e.target.value)}
+            style={{
+              fontSize: 14,
+              borderRadius: 7,
+              padding: "7px 10px",
+              border: "1px solid #ccc",
+            }}
+          />
+
           <textarea
             placeholder="Treść info (opis, wskazówki)"
             value={content}
@@ -224,6 +283,7 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
             }}
             required
           />
+
           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
             <span style={{ fontSize: 13, color: "#2261c5" }}>XYZ:</span>
             {[0, 1, 2].map((ax) => (
@@ -248,7 +308,6 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
                 required
               />
             ))}
-            {/* --- PRZYCISK "Wskaż na scenie" --- */}
             <button
               type="button"
               style={{
@@ -273,6 +332,7 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
               🎯 Wskaż na scenie
             </button>
           </div>
+
           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
             <span style={{ fontSize: 13, color: "#2261c5" }}>
               Pozycja kamery:
@@ -318,6 +378,7 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
               Ustaw z kamery
             </button>
           </div>
+
           <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
             <button
               type="submit"
@@ -372,6 +433,4 @@ const InfoPointDetailsPanel: React.FC<Props> = ({
       )}
     </div>
   );
-};
-
-export default InfoPointDetailsPanel;
+}

@@ -1,7 +1,7 @@
 import { InfoPointData } from "./types";
 
 export const ADD_INFOPOINT_PASSWORD = "1111";
-export const APP_PASSWORD = "12345678";
+export const APP_PASSWORD = "0";
 
 export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   {
@@ -13,6 +13,9 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     cameraPosition: [
       -59.708374539336276, 31.046953675813363, 42.392283723171445,
     ],
+    // plik w public/media/aed.jpg – BEZ wiodącego "/"
+    imageUrl: "media/aed.jpg",
+    imageAlt: "AED & Eye Wash Station",
   },
   {
     id: "Pedestrian Communication Route",
@@ -21,6 +24,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "🚸",
     content: "Pedestrian Communication Route",
     cameraPosition: [0, 100, 35],
+    imageUrl: "media/pedestrian-route.jpg",
+    imageAlt: "Pedestrian Route",
   },
   {
     id: "Emergency Board – Nearest Hospital Phone Number",
@@ -39,7 +44,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "H&S Board (Health & Safety)",
-    position: [35.350499494070576, 1.9999999999999964, -11.772105632853563],
+    position: [35.350499494070576, 2, -11.772105632853563],
     label: "H&S Board (Health & Safety)",
     icon: "⛑️",
     content:
@@ -68,4 +73,6 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     ],
   },
 ];
-export const PUBLIC_GLB = { label: "Building", url: "/models/building.glb" };
+
+// też bez wiodącego "/"
+export const PUBLIC_GLB = { label: "Building", url: "models/building.glb" };

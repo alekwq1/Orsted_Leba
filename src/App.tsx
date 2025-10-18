@@ -24,6 +24,7 @@ import { InfoPointData } from "./utils/types";
 import { isMobile, getInfoPanelStyle } from "./utils/helpers";
 import PlaneClickCatcher from "./components/PlaneClickCatcher";
 import OrgChartModal from "./components/OrgChartModal";
+import ModelsDropdown from "./components/ModelsDropdown";
 
 // --- TABLICA MODELI GLB ---
 export type GLBModelSettings = {
@@ -31,26 +32,49 @@ export type GLBModelSettings = {
   label: string;
   visible: boolean;
   position: [number, number, number];
-  rotation: [number, number, number];
+  rotation: [number, number, number]; // w stopniach
   scale?: [number, number, number];
 };
 
 // helpers do konwersji
 const degToRad = (deg: number) => (deg * Math.PI) / 180;
-
 const degArrayToRad = ([x, y, z]: [number, number, number]): [
   number,
   number,
   number
 ] => [degToRad(x), degToRad(y), degToRad(z)];
+
 const splatOption = {
   name: "15.10.2025",
-  url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025.splat",
+  url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025_changed.splat",
 
-  position: [-1.9, 10, -0.78] as [number, number, number],
-  rotation: degArrayToRad([0, 68.9, 0]),
-  scale: [20, 20, 20] as [number, number, number],
+  position: [-2.5, 13, -0.78] as [number, number, number],
+  rotation: degArrayToRad([-0.0, 68.8, -0.9]),
+  scale: [21.86, 24, 21.86] as [number, number, number],
 };
+
+// 🔧 NORMALIZACJA – przy imporcie JSON akceptuj stare pliki bez imageUrl/Alt
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const normalizeInfoPoints = (arr: any[]): InfoPointData[] =>
+  (Array.isArray(arr) ? arr : []).map((p) => ({
+    ...p,
+    imageUrl: typeof p.imageUrl === "string" ? p.imageUrl : undefined,
+    imageAlt: typeof p.imageAlt === "string" ? p.imageAlt : undefined,
+    cameraPosition: Array.isArray(p.cameraPosition)
+      ? [
+          Number(p.cameraPosition[0] || 0),
+          Number(p.cameraPosition[1] || 0),
+          Number(p.cameraPosition[2] || 0),
+        ]
+      : undefined,
+    position: Array.isArray(p.position)
+      ? [
+          Number(p.position[0] || 0),
+          Number(p.position[1] || 0),
+          Number(p.position[2] || 0),
+        ]
+      : [0, 0, 0],
+  })) as InfoPointData[];
 
 function App() {
   // ---- Obsługa "Wskaż na scenie"
@@ -63,21 +87,54 @@ function App() {
   const [glbModels, setGlbModels] = useState<GLBModelSettings[]>([
     {
       url: "/models/building.glb",
-      label: "Budynek bazowy",
+      label: "PZPB",
       visible: false,
-      position: [14, 0.6, -23],
-      rotation: [0, 160, 0],
+      position: [-66, 1.7, 30.35],
+      rotation: [0, 0, 0],
       scale: [1, 1, 1],
     },
     {
       url: "/models/building1.glb",
-      label: "buda oraz SITEMARKS",
+      label: "PZT",
       visible: false,
-      position: [79.5, -82.7, -6.2],
-      rotation: [0, 90.5, 0],
+      position: [34.05, 0, -8.4],
+      rotation: [0, 0, 0],
+      scale: [1, 1, 1],
+    },
+    {
+      url: "/models/building2.glb",
+      label: "Wycinka",
+      visible: false,
+      position: [7, 0, 31.78],
+      rotation: [0, 0, 0],
+      scale: [1, 1, 1],
+    },
+    {
+      url: "/models/building3.glb",
+      label: "Sieci",
+      visible: false,
+      position: [7.9, 1.7, 26.4],
+      rotation: [0, 0, 0],
+      scale: [1, 1, 1],
+    },
+    {
+      url: "/models/building4.glb",
+      label: "Wykop",
+      visible: false,
+      position: [31.2, 1.2, 6.76],
+      rotation: [0, 0, 0],
+      scale: [1, 1, 1],
+    },
+    {
+      url: "/models/building5.glb",
+      label: "calosc",
+      visible: false,
+      position: [7.9, 1.75, 26.4],
+      rotation: [0, 0, 0],
       scale: [1, 1, 1],
     },
   ]);
+
   // POBIERZ AKTUALNY, NAJNOWSZY infoPoints!
   const {
     infoPoints,
@@ -86,6 +143,7 @@ function App() {
     deleteInfoPoint,
     setInfoPoints,
   } = useInfoPoints();
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showIFC, setShowIFC] = useState(false);
   const [ifcProperties, setIfcProperties] =
@@ -153,16 +211,17 @@ function App() {
   } = useAuth();
 
   const { objectUrl, progress, showLoading } = useSplatLoader(splatOption.url);
+
   useEffect(() => {
     if (!showLoading && objectUrl) {
       setShowSplatLoadedOverlay(true);
-      // Po 2 sekundach schowaj overlay
       const timeout = setTimeout(() => {
         setShowSplatLoadedOverlay(false);
       }, 2000);
       return () => clearTimeout(timeout);
     }
   }, [showLoading, objectUrl]);
+
   const cameraHooks = useCameraControls(setEditingInfoPointId);
 
   useCameraWASD(
@@ -245,10 +304,10 @@ function App() {
       try {
         const data = JSON.parse(ev.target.result as string);
         if (Array.isArray(data)) {
-          setInfoPoints(data);
+          setInfoPoints(normalizeInfoPoints(data));
           alert("Zaimportowano punkty (z tablicy)!");
         } else if (data.infoPoints && Array.isArray(data.infoPoints)) {
-          setInfoPoints(data.infoPoints);
+          setInfoPoints(normalizeInfoPoints(data.infoPoints));
           alert("Zaimportowano punkty!");
         } else {
           alert("Nieprawidłowy plik JSON!");
@@ -259,6 +318,17 @@ function App() {
     };
     reader.readAsText(file);
   };
+
+  // ========= ZARZĄDZANIE WIDOCZNOŚCIĄ GLB Z DROPDOWNA =========
+  const showAllGlbs = () =>
+    setGlbModels((ms) => ms.map((m) => ({ ...m, visible: true })));
+  const hideAllGlbs = () =>
+    setGlbModels((ms) => ms.map((m) => ({ ...m, visible: false })));
+  const toggleModelVisible = (idx: number) =>
+    setGlbModels((ms) =>
+      ms.map((m, i) => (i === idx ? { ...m, visible: !m.visible } : m))
+    );
+  // ============================================================
 
   // Logowanie
   if (!isAuthenticated) {
@@ -309,13 +379,13 @@ function App() {
         </div>
       )}
 
-      {/* PRZYCISK UKRYWANIA UI + Progress Compare */}
+      {/* PRAWY GÓRNY RÓG: ukrywanie UI + dropdown + linki */}
       <div
         style={{
           position: "fixed",
           right: 16,
           top: 16,
-          zIndex: 10001,
+          zIndex: showOrgChart ? 1 : 10001, // 🚩 zepchnij za modal gdy otwarty
           display: "flex",
           gap: 12,
           alignItems: "center",
@@ -345,6 +415,17 @@ function App() {
         >
           {hideUI ? "🙉" : "🙈"}
         </button>
+
+        {!hideUI && (
+          <ModelsDropdown
+            models={glbModels.map(({ label, visible }) => ({ label, visible }))}
+            onToggleVisible={toggleModelVisible}
+            onShowAll={showAllGlbs}
+            onHideAll={hideAllGlbs}
+            // onSelect niewymagany — panel wyboru usunięty
+          />
+        )}
+
         {!hideUI && (
           <button
             onClick={() => setShowOrgChart(true)}
@@ -363,6 +444,7 @@ function App() {
             👤 Org chart
           </button>
         )}
+
         <a
           href="https://orstedleba.netlify.app/"
           target="_blank"
@@ -406,7 +488,6 @@ function App() {
                   zIndex: 2222,
                   cursor: "pointer",
                   letterSpacing: 1,
-                  outline: "none",
                 }}
               >
                 Edit mode
@@ -436,7 +517,6 @@ function App() {
                   zIndex: 2222,
                   cursor: "pointer",
                   letterSpacing: 1,
-                  outline: "none",
                 }}
               >
                 Wyłącz edycję
@@ -671,7 +751,6 @@ function App() {
               onClose={() => setEditingInfoPointId(null)}
               getCurrentCameraPosition={getCurrentCameraPosition}
               focusCameraOn={() => {}}
-              // TO NAJWAŻNIEJSZE: przekazujesz callback!
               onRequestSetPosition={handleRequestSetPosition}
             />
           )}
@@ -732,7 +811,7 @@ function App() {
             {/* 1) Splat w swojej grupie – tylko on się przesuwa */}
             <group
               position={splatOption.position}
-              rotation={splatOption.rotation} // jeśli podajesz stopnie, skonwertuj do radianów
+              rotation={splatOption.rotation}
               scale={splatOption.scale}
             >
               <Splat
@@ -753,9 +832,8 @@ function App() {
             />
 
             {/* 3) Pozostałe modele/IFC */}
-            {glbModels
-              .filter((m) => m.visible)
-              .map((m, i) => (
+            {glbModels.map((m, i) =>
+              m.visible ? (
                 <Suspense fallback={null} key={m.label + i}>
                   <GLBModel
                     url={m.url}
@@ -765,7 +843,8 @@ function App() {
                     visible={m.visible}
                   />
                 </Suspense>
-              ))}
+              ) : null
+            )}
 
             {showIFC && (
               <IFCModel
@@ -803,6 +882,7 @@ function App() {
           </Suspense>
         </Canvas>
       )}
+
       {showOrgChart && (
         <OrgChartModal
           onClose={() => setShowOrgChart(false)}
@@ -816,7 +896,6 @@ function App() {
               poster: "/media/mirek.jpg",
               alt: "Andrzej Kryciński",
             },
-            // kolejne osoby...
           ]}
         />
       )}

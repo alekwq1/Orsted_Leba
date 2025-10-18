@@ -1,5 +1,6 @@
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "three";
 
 function degToRad(deg: number) {
   return (deg * Math.PI) / 180;
@@ -8,7 +9,7 @@ function degToRad(deg: number) {
 type GLBModelProps = {
   url: string;
   position?: [number, number, number];
-  rotation?: [number, number, number];
+  rotation?: [number, number, number]; // w stopniach
   scale?: [number, number, number];
   visible: boolean;
 };
@@ -20,16 +21,19 @@ export default function GLBModel({
   scale = [1, 1, 1],
   visible,
 }: GLBModelProps) {
-  const radianRotation = rotation.map(degToRad) as [number, number, number];
   const gltf = useLoader(GLTFLoader, url);
+  const rad = rotation.map(degToRad) as [number, number, number];
+
   if (!visible) return null;
+
   return (
-    <primitive
-      object={gltf.scene}
-      dispose={null}
+    <group
       position={position}
-      rotation={radianRotation}
+      rotation={new THREE.Euler(rad[0], rad[1], rad[2], "XYZ")}
       scale={scale}
-    />
+      // Brak onPointerOver/Out i innych handlerów — kursor się nie zmienia
+    >
+      <primitive object={gltf.scene} dispose={null} />
+    </group>
   );
 }

@@ -114,7 +114,7 @@ export default function OrgChartModal({
 }) {
   // dopasowanie rozmiaru modal do okna
   const [size, setSize] = useState<{ w: number; h: number }>({
-    w: 1500,
+    w: 1000,
     h: 560,
   });
 
