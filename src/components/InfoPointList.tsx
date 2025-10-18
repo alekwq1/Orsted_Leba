@@ -1,4 +1,5 @@
-import { InfoPoint, InfoPointData } from "./InfoPoint";
+import type { InfoPointData } from "../utils/types";
+import InfoPoint from "./InfoPoint";
 
 export type InfoPointListProps = {
   style: React.CSSProperties;
