@@ -167,7 +167,16 @@ function App() {
       maxSplats: isMobile() ? 5_000_000 : 10_000_000,
     },
     {
-      label: "15.10.2025 (changed)",
+      label: "15.10.2025 (excavation)",
+      url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025WYKOP.splat",
+      visible: false,
+      position: [-2.5, 13, -0.78],
+      rotation: degArrayToRad([-0.0, 68.8, -0.9]),
+      scale: [21.86, 24, 21.86],
+      maxSplats: isMobile() ? 5_000_000 : 10_000_000,
+    },
+    {
+      label: "15.10.2025 (SDP)",
       url: "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Orsted_15102025_changed.splat",
       visible: false,
       position: [-2.5, 13, -0.78],
@@ -1066,10 +1075,58 @@ function App() {
           baseHeight={720}
           hotspots={[
             {
-              rect: { x: 200, y: 60, w: 100, h: 100 },
+              rect: { x: 70, y: 170, w: 120, h: 120 },
+              video: "/media/jarek.mp4",
+              poster: "/media/jarek.png",
+              alt: "Jarosław Balewski",
+            },
+            {
+              rect: { x: 770, y: 320, w: 95, h: 122 },
+              video: "/media/karolina.mp4",
+              poster: "/media/karolina.png",
+              alt: "Karolina Idzikowska",
+            },
+            {
+              rect: { x: 95, y: 580, w: 120, h: 120 },
+              video: "/media/damian.mp4",
+              poster: "/media/damian.png",
+              alt: "Damian Kuczmaszewski",
+            },
+            {
+              rect: { x: 1080, y: 580, w: 120, h: 120 },
+              video: "/media/michal.mp4",
+              poster: "/media/michal.png",
+              alt: "Michał Łukaszewicz",
+            },
+            {
+              rect: { x: 1065, y: 43, w: 110, h: 110 },
+              video: "/media/aleks.mp4",
+              poster: "/media/aleks.png",
+              alt: "Aliaksei Malyshka",
+            },
+            {
+              rect: { x: 420, y: 60, w: 110, h: 110 },
               video: "/media/mirek.mp4",
-              poster: "/media/mirek.jpg",
-              alt: "Andrzej Kryciński",
+              poster: "/media/mirek.png",
+              alt: "Mirosław Koczorowski",
+            },
+            {
+              rect: { x: 70, y: 310, w: 110, h: 110 },
+              video: "/media/kamila.mp4",
+              poster: "/media/kamila.png",
+              alt: "Kamila Luberska",
+            },
+            {
+              rect: { x: 430, y: 180, w: 100, h: 120 },
+              video: "/media/lukasz.mp4",
+              poster: "/media/lukasz.png",
+              alt: "Łukasz Ziemiński",
+            },
+            {
+              rect: { x: 1065, y: 235, w: 110, h: 110 },
+              video: "/media/jakub.mp4",
+              poster: "/media/jakub.png",
+              alt: "Jakub Zarach",
             },
           ]}
         />
