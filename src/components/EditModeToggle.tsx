@@ -4,14 +4,14 @@ type EditModeToggleProps = {
   editMode: boolean;
   onEnter: () => void; // wywoływane po poprawnym wpisaniu hasła
   onExit: () => void; // wywoływane przy wyjściu z trybu edycji
-  password?: string; // domyślnie "2222"
+  password?: string; // domyślnie "1111"
 };
 
 export default function EditModeToggle({
   editMode,
   onEnter,
   onExit,
-  password = "2222",
+  password = "1111",
 }: EditModeToggleProps) {
   const [askPassword, setAskPassword] = useState(false);
   const [pwd, setPwd] = useState("");

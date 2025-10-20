@@ -7,7 +7,7 @@ type Props = {
   onClose: () => void;
 };
 
-const EDIT_PASSWORD = "2222";
+const EDIT_PASSWORD = "1111";
 
 const EditInfoPointModal: React.FC<Props> = ({
   infoPoint,

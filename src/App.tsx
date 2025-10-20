@@ -60,6 +60,8 @@ export type SplatSettings = {
   scale?: [number, number, number];
   maxSplats?: number;
 };
+// ✅ Domyślnie widoczna tylko ta grupa:
+const DEFAULT_VISIBLE_GROUP = "🟢 INFRASTRUCTURE & LOGISTICS";
 
 // helpers
 const degToRad = (deg: number) => (deg * Math.PI) / 180;
@@ -195,35 +197,37 @@ function App() {
     setInfoPoints,
   } = useInfoPoints();
 
-  // Grupy InfoPointów (mapa widoczności)
-  const initialGroups = useMemo(() => {
-    const g = new Map<string, boolean>();
-    for (const p of infoPoints) {
-      const key = p.group?.trim() || "default";
-      if (!g.has(key)) g.set(key, true);
+  // ✅ Grupy InfoPointów — start: tylko DEFAULT_VISIBLE_GROUP = true
+  const [groupVisibility, setGroupVisibility] = useState<Map<string, boolean>>(
+    () => {
+      const m = new Map<string, boolean>();
+      for (const p of infoPoints) {
+        const key = p.group?.trim() || "default";
+        if (!m.has(key)) m.set(key, key === DEFAULT_VISIBLE_GROUP);
+      }
+      return m;
     }
-    return g;
-  }, [infoPoints]);
+  );
 
-  const [groupVisibility, setGroupVisibility] =
-    useState<Map<string, boolean>>(initialGroups);
-
+  // ✅ Przy zmianie listy punktów dopisuj NOWE grupy.
+  // Nowe grupy: domyślnie ukryte, chyba że to DEFAULT_VISIBLE_GROUP.
   useEffect(() => {
     setGroupVisibility((prev) => {
       const next = new Map(prev);
       for (const p of infoPoints) {
         const key = p.group?.trim() || "default";
-        if (!next.has(key)) next.set(key, true);
+        if (!next.has(key)) next.set(key, key === DEFAULT_VISIBLE_GROUP);
       }
       return next;
     });
   }, [infoPoints]);
 
   const visibleInfoPoints = useMemo(() => {
-    if (!groupVisibility || groupVisibility.size === 0) return infoPoints;
+    // Pokazuj tylko punkty z grup ustawionych na true.
+    // undefined/false => ukryte.
     return infoPoints.filter((p) => {
       const key = p.group?.trim() || "default";
-      return groupVisibility.get(key) !== false;
+      return groupVisibility.get(key) === true;
     });
   }, [infoPoints, groupVisibility]);
 
@@ -253,7 +257,7 @@ function App() {
   const [editMode, setEditMode] = useState(false);
   const [askPassword, setAskPassword] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
-  const EDIT_PASSWORD = "2222";
+  const EDIT_PASSWORD = "1111";
 
   // InfoPoint do podglądu (dymek)
   const [previewInfoPointId, setPreviewInfoPointId] = useState<string | null>(
@@ -1127,6 +1131,12 @@ function App() {
               video: "/media/jakub.mp4",
               poster: "/media/jakub.png",
               alt: "Jakub Zarach",
+            },
+            {
+              rect: { x: 740, y: 590, w: 100, h: 100 },
+              video: "/media/kaminski.mp4",
+              poster: "/media/kaminski.png",
+              alt: "Łukasz Kamiński",
             },
           ]}
         />
