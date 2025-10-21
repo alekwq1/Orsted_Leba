@@ -77,7 +77,6 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     cameraPosition: [49.95361719357935, 44.630807537987685, 12.641719373247728],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
-
   {
     id: "bb911195-a6a2-402a-99b0-28005c6ccdb6",
     label: "Existing fence",
@@ -227,7 +226,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "f50def39-a399-4d37-ae80-9b172dbf0d29",
     label: "Tree cutting and removal",
     icon: "🌳",
-    content: "Clearing vegetation and trees in accordance with permits",
+    content:
+      "Clearing vegetation and trees in accordance with permits\n\nFINISH: 22.12.2025",
     position: [12.982736574555235, 2, 33.063420380288704],
     cameraPosition: [15.920092045315855, 70.75710931049593, 34.13582282241805],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -236,7 +236,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "e126ed05-3b24-4782-b7d9-8d3f2cb80498",
     label: "Demolition of existing structures and fences",
     icon: "🔨",
-    content: "Removing old, non-functional elements",
+    content:
+      "Removing old, non-functional elements\nMobilization to Site\n\nFINISH: 21.11.2025",
     position: [27.372592735726517, 2, -16.105449142473542],
     cameraPosition: [
       59.17797781524004, 53.499826960581785, -29.364722542781106,
@@ -247,7 +248,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "6d24c822-1f6d-4756-9a0d-9127b8cc6919",
     label: "Roads, parking & pavement surfacing",
     icon: "🛣️",
-    content: "Constructing site access and transport surfaces",
+    content:
+      "Constructing site access and transport surfaces\n\nFINISH: 16.02.2026",
     position: [17.46715282924717, 2, 16.08212079514803],
     cameraPosition: [36.88946695192215, 79.30249188562306, 23.167906223420456],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -256,7 +258,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "e26e3e83-d194-44c5-a2e2-c2ebbd571eba",
     label: "Container bunkering support structures",
     icon: "🏗️",
-    content: "Building foundations and support frames",
+    content: "Building foundations and support frames\n\nFINISH: 20.01.2026",
     position: [31.468796933699007, 2, 11.715369356613948],
     cameraPosition: [65.19243078654213, 57.471610565147195, 24.221465645783134],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -265,7 +267,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "c99f4e7d-e2ce-4f7f-952e-391cb94f1ad8",
     label: "Construction of waste shelter",
     icon: "🏚️",
-    content: "Construction waste shelter",
+    content: "Construction waste shelter\n\nFINISH: 20.01.2026",
     position: [41.201945785593736, 2, -15.402785381935931],
     cameraPosition: [
       75.91733441006235, 50.696792033034704, -1.2902468561068634,
@@ -276,7 +278,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "f97c9ddc-2990-4642-abb0-4cb81852fe81",
     label: "Low-voltage electrical system installation",
     icon: "⚡",
-    content: "Distribution boards, cables, and power circuits",
+    content:
+      "Distribution boards, cables, and power circuits\n\nFINISH: 16.02.2026",
     position: [-13.017657248330284, 2, 12.429471563215216],
     cameraPosition: [-29.48659230252466, 55.80277856622264, 50.46681298148947],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -285,7 +288,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "5366c85f-d693-4275-a7ae-175fc9526104",
     label: "Installation of lighting poles",
     icon: "💡",
-    content: "Including foundations, cabling, and network connection",
+    content:
+      "Including foundations, cabling, and network connection\n\nFINISH: 16.02.2026",
     position: [47.570306844057754, 2, -42.659185240140594],
     cameraPosition: [35.186760985739, 43.56242450762002, -13.853960775570897],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -294,7 +298,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "48d8b36a-3ad0-4889-9a5d-051931575193",
     label: "Fire hydrant installation",
     icon: "🔥",
-    content: "Above-ground hydrants for fire protection",
+    content: "Above-ground hydrants for fire protection\n\nFINISH: 16.02.2026",
     position: [-11.387023199793015, 2, 23.28502945709052],
     cameraPosition: [-18.71806232759524, 57.45036348914774, 39.55327368096923],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -303,7 +307,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "f1a79c2b-01f6-4aad-b986-1823e9a8c1f5",
     label: "Sewage systems installation",
     icon: "🚰",
-    content: "Manholes, gravity sewage network, fittings",
+    content: "Manholes, gravity sewage network, fittings\n\nFINISH: 16.02.2026",
     position: [-22.346959457094705, 2, 16.745141425396547],
     cameraPosition: [
       -24.953778602791573, 48.63095440076574, 33.192607232893536,
@@ -314,7 +318,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "5299ca19-b84b-468e-b73f-2c52106256c5",
     label: "Stormwater Drainage Network",
     icon: "🌧️",
-    content: "Piping, catch basins, and rainwater discharge network",
+    content:
+      "Piping, catch basins, and rainwater discharge network\n\nFINISH: 16.02.2026",
     position: [23.072254479129374, 2, 4.509676133492562],
     cameraPosition: [44.99267168239004, 43.938612239561024, 4.2811003539762025],
     group: "🛠️ CONSTRUCTION WORKS EXECUTION",
@@ -323,7 +328,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     id: "2781036c-a69e-4c8b-9aeb-5e2eedf70a58",
     label: "Potable water piping installation",
     icon: "💧",
-    content: "Water pipelines, fittings, and connection points",
+    content:
+      "Water pipelines, fittings, and connection points\n\nFINISH: 16.02.2026",
     position: [3.756283363806638, 2, -3.3457513146314257],
     cameraPosition: [
       -16.445399859398826, 43.320756790988284, 9.470185569060535,
@@ -392,6 +398,15 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     group: "🔵 SAFETY & HSE (BHP)",
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/First%20aid%20station_2.png",
+  },
+  {
+    id: "402c90c3-3b48-49a4-ab9e-266f680c332d",
+    label: "Internal and external fences",
+    icon: "𓈈",
+    content: "Internal and external fences\n\nFINISH: 16.02.2026",
+    position: [18.80241204933273, 2.0000000000000018, 34.137763428634955],
+    cameraPosition: [49.37932664374944, 39.12377545635662, 45.37289839760544],
+    group: "🛠️ CONSTRUCTION WORKS EXECUTION",
   },
 ];
 

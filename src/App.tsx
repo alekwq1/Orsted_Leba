@@ -25,6 +25,7 @@ import IFCPropertiesPanel from "./components/IFCPropertiesPanel";
 import PlaneClickCatcher from "./components/PlaneClickCatcher";
 import OrgChartModal from "./components/OrgChartModal";
 import ModelsDropdown from "./components/ModelsDropdown";
+import GalleryModal, { type GalleryImage } from "./components/GalleryModal";
 
 // Dropdowny
 import SplatDropdown from "./components/SplatDropdown";
@@ -46,7 +47,7 @@ export type GLBModelSettings = {
   label: string;
   visible: boolean;
   position: [number, number, number];
-  rotation: [number, number, number]; // radians
+  rotation: [number, number, number]; // degrees in this app
   scale?: [number, number, number];
 };
 
@@ -56,7 +57,7 @@ export type SplatSettings = {
   label: string;
   visible: boolean;
   position: [number, number, number];
-  rotation: [number, number, number]; // radians
+  rotation: [number, number, number]; // radians (dla splatów trzymasz radiany)
   scale?: [number, number, number];
   maxSplats?: number;
 };
@@ -104,6 +105,23 @@ function App() {
     null | ((pos: [number, number, number]) => void)
   >(null);
   const [showOrgChart, setShowOrgChart] = useState(false);
+
+  // ---- GALLERY ----
+  const [showGallery, setShowGallery] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  // Podmień na swoje ścieżki/obrazy
+  const galleryImages: GalleryImage[] = [
+    {
+      src: "/media/gallery/1.jpg",
+      alt: "Widok 1",
+      caption: "DETAILED PROGRAMME 2025.10.21",
+    },
+    {
+      src: "/media/gallery/2.jpg",
+      alt: "Widok 2",
+      caption: "Site Development Plan",
+    },
+  ];
 
   // GLB
   const [glbModels, setGlbModels] = useState<GLBModelSettings[]>([
@@ -232,8 +250,6 @@ function App() {
   }, [infoPoints]);
 
   const visibleInfoPoints = useMemo(() => {
-    // Pokazuj tylko punkty z grup ustawionych na true.
-    // undefined/false => ukryte.
     return infoPoints.filter((p) => {
       const key = p.group?.trim() || "default";
       return groupVisibility.get(key) === true;
@@ -610,22 +626,45 @@ function App() {
         )}
 
         {!hideUI && (
-          <button
-            onClick={() => setShowOrgChart(true)}
-            style={{
-              background: "#1971c2",
-              color: "#fff",
-              fontWeight: 700,
-              border: "none",
-              borderRadius: 9,
-              padding: "7px 14px",
-              cursor: "pointer",
-              boxShadow: "0 2px 8px #0002",
-            }}
-            title="Show organizational chart"
-          >
-            👤 Org chart
-          </button>
+          <>
+            <button
+              onClick={() => setShowOrgChart(true)}
+              style={{
+                background: "#1971c2",
+                color: "#fff",
+                fontWeight: 700,
+                border: "none",
+                borderRadius: 9,
+                padding: "7px 14px",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px #0002",
+              }}
+              title="Show organizational chart"
+            >
+              👤 Org chart
+            </button>
+
+            {/* NOWY PRZYCISK: GALLERY */}
+            <button
+              onClick={() => {
+                setGalleryIndex(0);
+                setShowGallery(true);
+              }}
+              style={{
+                background: "#0ea5e9",
+                color: "#fff",
+                fontWeight: 700,
+                border: "none",
+                borderRadius: 9,
+                padding: "7px 14px",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px #0002",
+              }}
+              title="Open gallery"
+            >
+              🖼️ Gallery
+            </button>
+          </>
         )}
 
         <a
@@ -859,12 +898,8 @@ function App() {
             showInfoPoints={showInfoPoints}
             setShowInfoPoints={setShowInfoPoints}
             setShowAddModal={(v) => {
-              // dodatkowy guard: poza trybem edycji nie otwieraj modala
               if (editMode) setShowAddModal(v);
             }}
-            // ⬇ podaj editMode, żeby ukryć przycisk w samym komponencie
-            // (w komponencie dodaj warunek renderowania przycisku)
-
             editMode={editMode}
             isMobile={isMobile()}
           />
@@ -1148,6 +1183,16 @@ function App() {
               alt: "Łukasz Kamiński",
             },
           ]}
+        />
+      )}
+
+      {/* MODAL GALERII */}
+      {showGallery && (
+        <GalleryModal
+          images={galleryImages}
+          index={galleryIndex}
+          setIndex={setGalleryIndex}
+          onClose={() => setShowGallery(false)}
         />
       )}
     </div>
