@@ -108,10 +108,10 @@ function App() {
   // GLB
   const [glbModels, setGlbModels] = useState<GLBModelSettings[]>([
     {
-      url: "/models/building.glb",
+      url: "/models/building6.glb",
       label: "PZPB",
       visible: false,
-      position: [-66, 1.7, 30.35],
+      position: [-50.5, 1.68, 22.85],
       rotation: [0, 0, 0],
       scale: [1, 1, 1],
     },
@@ -149,10 +149,10 @@ function App() {
     },
     {
       url: "/models/building5.glb",
-      label: "Całość",
+      label: "Mesh",
       visible: false,
-      position: [7.9, 1.75, 26.4],
-      rotation: [0, 0, 0],
+      position: [-4.5, 88.3, -6.6],
+      rotation: [-89, 0, -2.5],
       scale: [1, 1, 1],
     },
   ]);
@@ -166,7 +166,7 @@ function App() {
       position: [-2.5, 13, -0.78],
       rotation: degArrayToRad([-0.0, 68.8, -0.9]),
       scale: [21.86, 24, 21.86],
-      maxSplats: isMobile() ? 5_000_000 : 10_000_000,
+      maxSplats: isMobile() ? 500_000 : 3_000_000,
     },
     {
       label: "15.10.2025 (excavation)",
@@ -183,6 +183,15 @@ function App() {
       visible: false,
       position: [-2.5, 13, -0.78],
       rotation: degArrayToRad([-0.0, 68.8, -0.9]),
+      scale: [21.86, 24, 21.86],
+      maxSplats: isMobile() ? 5_000_000 : 10_000_000,
+    },
+    {
+      label: "Boat",
+      url: "https://huggingface.co/datasets/Alekso/Ludka/resolve/main/lodka.splat",
+      visible: false,
+      position: [85, -23, -65],
+      rotation: degArrayToRad([-40, -20, -5]),
       scale: [21.86, 24, 21.86],
       maxSplats: isMobile() ? 5_000_000 : 10_000_000,
     },

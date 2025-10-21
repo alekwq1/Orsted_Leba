@@ -28,7 +28,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "Emergency Board – Nearest Hospital Phone Number",
-    position: [-70.36382450190602, 2, 38.16737609681029],
+    position: [-49.89867950091776, 2, 27.45932638352281],
     label: "NEmergency Board – Nearest Hospital Phone Number",
     icon: "📞",
     content: "📞🏥 Emergency Board – Nearest Hospital Phone Number",
@@ -39,35 +39,33 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "No Entry – Fuel Storage Area",
-    position: [26.75652399011745, 2, -43.50977680757802],
-    label: "No Entry – Fuel Storage Area",
+    position: [28.85552850985124, 2, -46.52177067189187],
+    label: "Fuel Storage and Refueling Area",
     icon: "⛽",
-    content: "⛔⛽ No Entry – Fuel Storage Area",
-    cameraPosition: [17.16468680707392, 37.13162039603709, -15.365127050624675],
+    content: "⛔⛽ Secured, Fenced Fuel Storage and Refueling Area",
+    cameraPosition: [21.242122639819517, 45.77152745563941, -27.34542043594579],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
   {
     id: "H&S Board (Health & Safety)",
-    position: [35.350499494070576, 2, -11.772105632853563],
+    position: [38.052050276493254, 2, -12.31381604157529],
     label: "H&S Board (Health & Safety)",
     icon: "⛑️",
     content:
       "• Lifebuoy with rope: 🛟\n       • First aid kit + assigned personnel list: 💊📜",
-    cameraPosition: [57.01997448514952, 29.1655793073127, -21.745386173333834],
+    cameraPosition: [56.36290078713302, 46.44271638253251, -5.8992113224244465],
     group: "🔵 SAFETY & HSE (BHP)",
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/H%26S%20Board.png",
   },
   {
     id: "Safety Board",
-    position: [27.275759221802353, 2, -18.54483067193394],
+    position: [38.90163184372005, 2, -14.604054171388384],
     label: "Safety Board",
     icon: "📢",
     content:
       "• Evacuation assembly point 🚨\n• First aid kit 💊🩹\n• Fire extinguisher 🔥🧯\n• Fire blanket 🧯🛡️\n",
-    cameraPosition: [
-      54.40471891951239, 30.157081459343313, -25.242299194210553,
-    ],
+    cameraPosition: [57.950187915524964, 36.60397597689412, -7.295426790356244],
     group: "🔵 SAFETY & HSE (BHP)",
   },
   {
@@ -75,21 +73,11 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     label: "Smoking place",
     icon: "🚬",
     content: "Designated area for smoking",
-    position: [36.20405551246592, 2, -18.395489725939946],
-    cameraPosition: [
-      58.775684014357154, 29.213823024479616, -28.773461175432402,
-    ],
+    position: [23.652261588365363, 2, 42.18106754050149],
+    cameraPosition: [49.95361719357935, 44.630807537987685, 12.641719373247728],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
-  {
-    id: "adce84bb-bef7-4ecb-9329-7d09253d0fef",
-    label: "Security post",
-    icon: "🛡️",
-    content: "Control point for site entry and exit",
-    position: [20.01571717297572, 2, -29.647092721252875],
-    cameraPosition: [62.19297143364475, 53.61873614599245, -43.472406851267024],
-    group: "🟢 INFRASTRUCTURE & LOGISTICS",
-  },
+
   {
     id: "bb911195-a6a2-402a-99b0-28005c6ccdb6",
     label: "Existing fence",
@@ -106,18 +94,20 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     label: "Construction site fencing/Main site entrance",
     icon: "🚧",
     content: "Barrier securing the site and controlled vehicle access point",
-    position: [-66.42638839201182, 2, 29.213284271785167],
-    cameraPosition: [-100.77694666971213, 44.98690751679261, 42.47226709238501],
+    position: [-50.74965698404177, 1.9999999999999964, 23.199225890646957],
+    cameraPosition: [-86.28804107408516, 32.53703768030698, 36.89040814565502],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
   {
     id: "78d3b759-0054-4b19-828b-24993a862c50",
-    label: "Gatehouse",
+    label: "Gate entrance",
     icon: "🏢",
-    content: "Registration point for all entering personnel",
+    content: "Gate entrance",
     position: [19.54198076158974, 2, -35.75757668614504],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
-    cameraPosition: [51.21273012964426, 39.13597938664215, -20.934098578859665],
+    cameraPosition: [
+      -28.352954374147153, 86.33701797358486, -64.22265861572839,
+    ],
   },
   {
     id: "160762c5-66a8-4646-af40-db719f10d58e",
@@ -125,19 +115,17 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "🚒",
     content: "🛞 Fire access road – dedicated emergency service access",
     position: [-9.566378164889194, 2, -61.575555120775725],
-    cameraPosition: [
-      -40.934801934744485, 79.81963645792516, -94.13854755056903,
-    ],
+    cameraPosition: [-50.23374228608008, 80.38704737492883, -78.9496336145196],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
   {
     id: "9f8decf0-1910-4d04-8cb8-c28a2559343c",
-    label: "Crane & heavy machinery zone",
+    label: "Crane and Heavy Equipment Parking Area",
     icon: "⚙️",
     content:
-      "Crane and heavy equipment zone – designated area for heavy lifting operations",
-    position: [41.89504835290006, 2, -38.830367325407465],
-    cameraPosition: [32.47697207622693, 38.71073900664743, -15.543177666683945],
+      "Crane and Heavy Equipment Parking Zone – Designated Area for Machinery Parking",
+    position: [37.72899667555536, 2, -41.73747307388659],
+    cameraPosition: [28.38801668416825, 39.05082073479554, -17.214300188542335],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
   {
@@ -146,8 +134,8 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "🛖",
     content:
       "Office and welfare containers – site offices, locker rooms, canteen",
-    position: [21.711060202815744, 2, -24.119864749991155],
-    cameraPosition: [53.54543456586339, 36.882958227591445, -35.09516447153649],
+    position: [29.549672504557705, 2, 43.64624779750949],
+    cameraPosition: [69.24323235912998, 64.20847759676354, 58.89324819472813],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
   },
   {
@@ -156,9 +144,11 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "♻️",
     content:
       "Selective waste collection – designated recycling and separation area",
-    position: [27.1229334872704, 2.000000000000007, -21.79133566290652],
+    position: [18.57686472369931, 2, -28.40127744083936],
     group: "🟢 INFRASTRUCTURE & LOGISTICS",
-    cameraPosition: [55.52805512705507, 31.54851690463512, -35.422597471997996],
+    cameraPosition: [
+      46.477328608786834, 39.11863948513215, -16.930663846169544,
+    ],
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Selective%20waste%20collection%20point.png",
   },
@@ -178,8 +168,10 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "📋",
     content:
       "Construction information board – mandatory site data and project info",
-    position: [-68.41762054386874, 2, 34.2277629862898],
-    cameraPosition: [-92.04743941215833, 69.93508448314276, 38.230647621873366],
+    position: [-50.38604488036132, 2, 26.203443105195348],
+    cameraPosition: [
+      -65.32106832791875, 26.353771424841646, 30.515026610352834,
+    ],
     group: "🟡 INFORMATION & SIGNAGE",
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Construction%20information%20board.png",
@@ -226,7 +218,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     icon: "⚠️",
     content: "Warning signage – danger and caution signs",
     position: [21.837110950597307, 1.9999999999999858, -44.60617359227047],
-    cameraPosition: [-51.5758943502059, 121.3317703766492, -72.2606216286748],
+    cameraPosition: [-30.314016883370535, 86.77089837239286, -64.2513393066424],
     group: "🟡 INFORMATION & SIGNAGE",
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/Warning%20signage.png",
@@ -271,9 +263,9 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "c99f4e7d-e2ce-4f7f-952e-391cb94f1ad8",
-    label: "Construction of sheds and storage facilities",
+    label: "Construction of waste shelter",
     icon: "🏚️",
-    content: "Domestic and construction waste shelters",
+    content: "Construction waste shelter",
     position: [41.201945785593736, 2, -15.402785381935931],
     cameraPosition: [
       75.91733441006235, 50.696792033034704, -1.2902468561068634,
@@ -320,7 +312,7 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
   },
   {
     id: "5299ca19-b84b-468e-b73f-2c52106256c5",
-    label: "🛠️ CONSTRUCTION WORKS EXECUTION",
+    label: "Stormwater Drainage Network",
     icon: "🌧️",
     content: "Piping, catch basins, and rainwater discharge network",
     position: [23.072254479129374, 2, 4.509676133492562],
@@ -360,6 +352,46 @@ export const DEFAULT_INFOPOINTS: InfoPointData[] = [
     group: "🟡 INFORMATION & SIGNAGE",
     imageUrl:
       "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/No%20access.png",
+  },
+  {
+    id: "a715a26c-a544-412e-97d8-f59eb99abc60",
+    label: "Evacuation assembly point",
+    icon: "🚨",
+    content: "Evacuation assembly point 🚨",
+    position: [-52.934091948160685, 2, 29.6537296987592],
+    cameraPosition: [-79.44391662049185, 26.9064889755686, 28.13496193702858],
+    group: "🔵 SAFETY & HSE (BHP)",
+  },
+  {
+    id: "2c7c505c-371f-4e93-9192-05aa7488cb1e",
+    label: "Passenger Car Parking ",
+    icon: "🚗",
+    content: "Car Parking Area – Designated Zone for Passenger Vehicles 🚗",
+    position: [27.020101477193492, 2, -22.664976814398507],
+    cameraPosition: [
+      44.109948398521794, 41.04008705786272, -15.623256863808956,
+    ],
+    group: "🟢 INFRASTRUCTURE & LOGISTICS",
+  },
+  {
+    id: "85e84b3d-d651-4bfe-aa51-5cb87a1b11e9",
+    label: "Construction Site Monitoring",
+    icon: "📹",
+    content: "24/7 Construction Site Monitoring via CCTV Cameras",
+    position: [23.277104417400977, 2, -42.92416835412112],
+    cameraPosition: [49.53821120623793, 44.101346106882275, -30.1069761870133],
+    group: "🟢 INFRASTRUCTURE & LOGISTICS",
+  },
+  {
+    id: "9b39b84d-6036-4e07-a528-403e3dcc1655",
+    label: "H&S Board (Health & Safety)",
+    icon: "⛑️",
+    content: "🧯⛑️ (fire extinguisher + first aid kit)",
+    position: [22.720476192709878, 2, 39.80852852579013],
+    cameraPosition: [28.7005762722234, 35.09422642248284, 25.865027053836574],
+    group: "🔵 SAFETY & HSE (BHP)",
+    imageUrl:
+      "https://huggingface.co/datasets/Alekso/Orsted/resolve/main/First%20aid%20station_2.png",
   },
 ];
 
